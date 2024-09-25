@@ -26,6 +26,8 @@ don't forget to call `mydict.commit()` when done with a transaction.
 
 """
 
+import builtins
+import io
 import sqlite3
 import os
 import sys
@@ -46,11 +48,7 @@ def reraise(tp, value, tb=None):
         raise value.with_traceback(tb)
     raise value
 
-
-try:
-    from cPickle import dumps, loads, HIGHEST_PROTOCOL as PICKLE_PROTOCOL
-except ImportError:
-    from pickle import dumps, loads, HIGHEST_PROTOCOL as PICKLE_PROTOCOL
+from pickle import dumps, Unpickler, UnpicklingError, HIGHEST_PROTOCOL as PICKLE_PROTOCOL
 
 # some Python 3 vs 2 imports
 try:
@@ -65,6 +63,28 @@ except ImportError:
 
 
 logger = logging.getLogger(__name__)
+
+safe_builtins = {
+    'range',
+    'complex',
+    'set',
+    'frozenset',
+    'slice',
+}
+
+class RestrictedUnpickler(Unpickler):
+
+    def find_class(self, module, name):
+        # Only allow safe classes from builtins.
+        if module == "builtins" and name in safe_builtins:
+            return getattr(builtins, name)
+        # Forbid everything else.
+        raise UnpicklingError("global '%s.%s' is forbidden" %
+                                     (module, name))
+
+def restricted_loads(s):
+    """Helper function analogous to pickle.loads()."""
+    return RestrictedUnpickler(io.BytesIO(s)).load()
 
 #
 # There's a thread that holds the actual SQL connection (SqliteMultithread).
@@ -124,7 +144,7 @@ def encode(obj):
 
 def decode(obj):
     """Deserialize objects retrieved from SQLite."""
-    return loads(bytes(obj))
+    return restricted_loads(bytes(obj))
 
 
 def encode_key(key):
@@ -134,7 +154,7 @@ def encode_key(key):
 
 def decode_key(key):
     """Deserialize a key retrieved from SQLite."""
-    return loads(b64decode(key.encode("ascii")))
+    return restricted_loads(b64decode(key.encode("ascii")))
 
 
 def identity(obj):
