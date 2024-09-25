@@ -46,22 +46,22 @@ SetupDevelop.__doc__ = setuptools.command.develop.develop.__doc__
 
 
 setup(
-    name='sqlitedict',
-    version='2.1.0',
-    description='Persistent dict in Python, backed up by sqlite3 and pickle, multithread-safe.',
+    name='restricted-sqlitedict',
+    version='1.0.0',
+    description='Fork of sqlitedict with restricted pickle loading.',
     long_description=read('README.rst'),
 
-    py_modules=['sqlitedict'],
+    py_modules=['restricted-sqlitedict'],
 
     # there is a bug in python2.5, preventing distutils from using any non-ascii characters :(
     # http://bugs.python.org/issue2562
-    author='Radim Rehurek, Victor R. Escobar, Andrey Usov, Prasanna Swaminathan, Jeff Quast',
+    author='Radim Rehurek, Victor R. Escobar, Andrey Usov, Prasanna Swaminathan, Jeff Quast, Maciek Stopa',
     author_email="me@radimrehurek.com",
     maintainer='Radim Rehurek',
     maintainer_email='me@radimrehurek.com',
 
-    url='https://github.com/piskvorky/sqlitedict',
-    download_url='http://pypi.python.org/pypi/sqlitedict',
+    url='https://github.com/mstopa/restricted-sqlitedict',
+    download_url='http://pypi.python.org/pypi/restricted-sqlitedict',
 
     keywords='sqlite, persistent dict, multithreaded',
 

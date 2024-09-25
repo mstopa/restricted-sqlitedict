@@ -1,3 +1,13 @@
+This is a fork of `sqlitedict`. 
+
+`restricted-sqlitedict` deserializes values using the `restricted_loads` function to prevent code injection attacks.
+See:
+- [CVE-2024-35515](https://wha13.github.io/2024/06/13/mfcve/)
+- [Issue in the original repository](https://github.com/piskvorky/sqlitedict/issues/174)
+- [Pickle's documenation](https://docs.python.org/3/library/pickle.html#restricting-globals)
+
+The original README is below.
+
 ===================================================
 sqlitedict -- persistent ``dict``, backed by SQLite
 ===================================================

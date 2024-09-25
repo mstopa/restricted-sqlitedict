@@ -1,5 +1,8 @@
 # Changes
 
+## restricted-sqlitedict 1.0.0, 2024-09-25
+- Created a fork of https://github.com/piskvorky/sqlitedict with restricted value loading due to [CVE-2024-35515](https://wha13.github.io/2024/06/13/mfcve/).
+
 ## 2.1.0, 2022-12-03
 
 - Introduced weak references (PR [#165](https://github.com/RaRe-Technologies/sqlitedict/pull/165), [@mpenkov](https://github.com/mpenkov))

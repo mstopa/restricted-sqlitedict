@@ -38,7 +38,7 @@ import traceback
 from base64 import b64decode, b64encode
 import weakref
 
-__version__ = '2.1.0'
+__version__ = '1.0.0'
 
 
 def reraise(tp, value, tb=None):
